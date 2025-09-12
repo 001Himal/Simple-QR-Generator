@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple QR Code Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- QRious Library for QR code generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header space retained for future header -->
+    <div class="header-space">
+        <div class="page-title">
+            <i class="fas fa-qrcode"></i>
+            <div class="title-content">
+                <h1>Simple QR Code Generator</h1>
+                <p class="tagline">Create customized QR codes in real time</p>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- Tool Section at Top -->
+        <section class="tool-section">
+            <div class="tool-container">
+                <!-- QR Options -->
+                <div class="options-section">
+                    <h2>QR Code Generator</h2>
+
+                    <!-- QR Code Type Selection -->
+                    <div class="qr-type-container">
+                        <div class="qr-type-header">
+                            <p>Select QR code type:</p>
+                        </div>
+                        <div class="qr-type-options">
+                            <button type="button" class="qr-type-btn active" data-type="url">
+                                <i class="fas fa-link"></i>
+                                <span>URL</span>
+                            </button>
+                            <button type="button" class="qr-type-btn" data-type="text">
+                                <i class="fas fa-font"></i>
+                                <span>Text</span>
+                            </button>
+                            <button type="button" class="qr-type-btn" data-type="wifi">
+                                <i class="fas fa-wifi"></i>
+                                <span>WiFi</span>
+                            </button>
+                            <button type="button" class="qr-type-btn" data-type="social">
+                                <i class="fas fa-share-alt"></i>
+                                <span>Social</span>
+                            </button>
+                            <button type="button" class="qr-type-btn" data-type="contact">
+                                <i class="fas fa-address-card"></i>
+                                <span>Contact</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic form based on type -->
+                    <div id="qrTypeForm">
+                        <!-- URL Form (default) -->
+                        <div class="qr-form-content active" data-form="url">
+                            <div class="form-group">
+                                <label for="urlInput">Website URL</label>
+                                <input type="url" id="urlInput" placeholder="https://example.com" class="content-input">
+                            </div>
+                        </div>
+
+                        <!-- Text Form -->
+                        <div class="qr-form-content" data-form="text">
+                            <div class="form-group">
+                                <label for="textInput">Text Content</label>
+                                <textarea id="textInput" placeholder="Enter any text content here"
+                                    class="content-input"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- WiFi Form -->
+                        <div class="qr-form-content" data-form="wifi">
+                            <div class="form-group">
+                                <label for="wifiName">Network Name (SSID)</label>
+                                <input type="text" id="wifiName" placeholder="Your WiFi name" class="content-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="wifiPassword">Password</label>
+                                <input type="password" id="wifiPassword" placeholder="Network password">
+                            </div>
+                            <div class="form-group">
+                                <label for="wifiEncryption">Encryption</label>
+                                <select id="wifiEncryption">
+                                    <option value="WPA">WPA/WPA2</option>
+                                    <option value="WEP">WEP</option>
+                                    <option value="nopass">None</option>
+                                </select>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="wifiHidden">
+                                <label for="wifiHidden">Hidden network</label>
+                            </div>
+                        </div>
+
+                        <!-- Social Media Form -->
+                        <div class="qr-form-content" data-form="social">
+                            <div class="form-group">
+                                <label for="socialPlatform">Platform</label>
+                                <select id="socialPlatform" class="content-input">
+                                    <option value="instagram">Instagram</option>
+                                    <option value="facebook">Facebook</option>
+                                    <option value="twitter">Twitter/X</option>
+                                    <option value="linkedin">LinkedIn</option>
+                                    <option value="tiktok">TikTok</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="socialUsername">Username or Profile URL</label>
+                                <input type="text" id="socialUsername" placeholder="Your username or full profile URL">
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <div class="qr-form-content" data-form="contact">
+                            <div class="form-group">
+                                <label for="contactName">Full Name</label>
+                                <input type="text" id="contactName" placeholder="John Doe" class="content-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPhone">Phone Number</label>
+                                <input type="tel" id="contactPhone" placeholder="+1 234 567 8900">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Email</label>
+                                <input type="email" id="contactEmail" placeholder="john.doe@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactOrg">Organization (optional)</label>
+                                <input type="text" id="contactOrg" placeholder="Company name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="style-options">
+                        <h3>Style Options</h3>
+                        <div class="form-group">
+                            <label for="qrSize">Size: <span id="sizeValue">200×200px</span></label>
+                            <input type="range" id="qrSize" min="100" max="400" value="200" step="10">
+                        </div>
+
+                        <div class="colors-container">
+                            <div class="form-group color-group">
+                                <label for="qrColorLight">Background Color</label>
+                                <input type="color" id="qrColorLight" value="#ffffff">
+                            </div>
+
+                            <div class="form-group color-group">
+                                <label for="qrColorDark">Foreground Color</label>
+                                <input type="color" id="qrColorDark" value="#000000">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="qrErrorCorrection">Error Correction Level</label>
+                            <select id="qrErrorCorrection">
+                                <option value="L">Low (7%)</option>
+                                <option value="M" selected>Medium (15%)</option>
+                                <option value="Q">Quartile (25%)</option>
+                                <option value="H">High (30%)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QR Results -->
+                <div class="extracted-text-container">
+                    <div class="results-header">
+                        <h2>QR Code Result</h2>
+                    </div>
+
+                    <div class="results-content">
+                        <div class="progress-container">
+                            <div id="progressBar" class="progress-bar"></div>
+                        </div>
+                        <p id="status" class="status-text"></p>
+                        <p id="errorMessage" class="error-message"></p>
+
+                        <div class="qr-container">
+                            <div id="qrPlaceholder" class="qr-placeholder">
+                                <i class="fas fa-qrcode"></i>
+                                <p>QR code will appear here</p>
+                            </div>
+                            <canvas id="qrcode" class="hidden"></canvas>
+                            <div id="loadingIndicator" class="loading-indicator hidden">
+                                <div class="spinner"></div>
+                                <p>Generating...</p>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button id="downloadPNG" class="btn btn-primary" disabled>
+                                <i class="fas fa-download"></i> PNG
+                            </button>
+                            <button id="downloadSVG" class="btn btn-secondary" disabled>
+                                <i class="fas fa-download"></i> SVG
+                            </button>
+                            <button id="resetBtn" class="btn btn-reset" disabled>
+                                <i class="fas fa-undo"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Guide Section Below -->
+        <section class="guide-section">
+            <h2 class="section-title">User Guide: How to Use the QR Code Generator</h2>
+
+            <div class="guide-steps">
+                <div class="guide-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Select Type</h3>
+                        <p>Choose the type of QR code you want to create: URL, text, WiFi, social media, or contact
+                            info.</p>
+                    </div>
+                </div>
+
+                <div class="guide-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Enter Content</h3>
+                        <p>Fill in the required information based on your selected QR code type.</p>
+                    </div>
+                </div>
+
+                <div class="guide-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Customize Style</h3>
+                        <p>Adjust the size, background and foreground colors, and error correction level.</p>
+                    </div>
+                </div>
+
+                <div class="guide-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Download</h3>
+                        <p>Save your QR code in PNG or SVG format for use in your projects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Simple QR Code Generator | Developed with <i class="fas fa-heart"> </i></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
