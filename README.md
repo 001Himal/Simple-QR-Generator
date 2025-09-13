@@ -41,7 +41,7 @@ No installation required. Simply open the `index.html` file in any modern web br
 
 ## Live Demo
 
-You can access the live version of this application at https://github.com/001Himal/Simple-QR-Generator.
+You can access the live version of this application at https://001himal.github.io/Simple-QR-Generator/.
 
 ## License
 
