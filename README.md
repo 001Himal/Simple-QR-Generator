@@ -1,4 +1,4 @@
-# Simple QR Code Generator
+## Simple QR Code Generator
 
 A lightweight, easy-to-use QR code generator web application that allows users to create customized QR codes for various purposes.
 
